@@ -11,7 +11,9 @@ import app.appointment.service.patient.domain.model.PatientResponse;
 import app.appointment.service.patient.domain.port.PatientRepository;
 import app.appointment.service.patient.infrastructure.adapter.driver.MongoPatientRepository;
 import app.appointment.service.patient.infrastructure.adapter.driver.entity.PatientEntity;
+import app.appointment.service.utils.dto.EmailNotificationDto;
 import app.appointment.service.utils.exception.ServiceException;
+import app.appointment.service.utils.notification.AsyncNotifications;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -29,6 +31,7 @@ public class PatientDatasource implements PatientRepository {
     private final ModelMapper modelMapper;
     private final MongoMedicalRepository medicalRepository;
     private final MongoPatientRepository patientRepository;
+    private  final AsyncNotifications asyncNotifications;
 
     @Override
     public PatientResponse save(PatientRequest patientRequest) {
@@ -58,7 +61,11 @@ public class PatientDatasource implements PatientRepository {
         patientEntity.setRole(role);
 
         patientRepository.save(modelMapper.map(patientEntity, PatientEntity.class));
-
+        asyncNotifications.emailNotifyNewAccount(EmailNotificationDto
+                .builder()
+                        .patient(patientEntity.getUsername())
+                        .email(patientEntity.getEmail())
+                .build());
         return modelMapper.map(patientEntity, PatientResponse.class);
     }
 

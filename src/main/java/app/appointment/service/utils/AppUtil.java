@@ -1,5 +1,6 @@
 package app.appointment.service.utils;
 
+import app.appointment.service.utils.dto.EmailNotificationDto;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -204,5 +205,16 @@ public class AppUtil {
         return String.valueOf(codigoAleatorio);
     }
 
-
+    public static String generateHTMLResetPassword(EmailNotificationDto notificationDto){
+       return "";
+    }
+    public static String generateHTMLNewAppointment(EmailNotificationDto notificationDto){
+        return "";
+    }
+    public static String generateHTMLInicioSession(EmailNotificationDto notificationDto){
+        return "";
+    }
+    public static String generateHTMLNewAccount(EmailNotificationDto notificationDto){
+        return "";
+    }
 }
