@@ -8,11 +8,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
-/**
- * @author Jonathan Giovanni Hernandez
- * @company Finansoportes Consulting
- * @created 01/09/2020
- */
+
 @Component
 public class ExceptionHelper {
 

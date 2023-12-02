@@ -1,0 +1,35 @@
+
+name: Appointment-service-CI
+
+on:
+  push:
+    branches: [ "master", "build_and_test_on_local_and_github" ]
+  pull_request:
+    branches: [ "master" ]
+
+permissions:
+  contents: read
+  issues: read
+  checks: write
+  pull-requests: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+      - name: Run Tests with Gradle
+        run: |
+          sudo apt-get update
+          sudo apt-get install dos2unix
+          dos2unix ./gradlew
+          sudo chmod +x ./gradlew
+          ./gradlew test
+
+
+

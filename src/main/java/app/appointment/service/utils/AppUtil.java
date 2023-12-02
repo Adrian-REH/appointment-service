@@ -10,11 +10,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
- * @author Jonathan Giovanni Hernandez
- * @company Finansoportes Consulting
- * @created 13/08/2020
- */
 public class AppUtil {
 
     public static Integer safetyParseInteger(String possibleInteger){

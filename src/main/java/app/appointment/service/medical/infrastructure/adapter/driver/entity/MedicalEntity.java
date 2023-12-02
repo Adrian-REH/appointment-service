@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -36,6 +37,7 @@ public class MedicalEntity {
     private String tokenNot;
     private String hourOn;
     private Role role;
+    private List<app.appointment.service.date.domain.model.Date> listSchedule;
     @CreatedDate
     private Date createdAt;
     @LastModifiedDate

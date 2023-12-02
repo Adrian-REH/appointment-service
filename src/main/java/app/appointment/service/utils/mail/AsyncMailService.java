@@ -18,11 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
-/**
- * @author Jonathan Giovanni Hernandez
- * @company Finansoportes Consulting
- * @created 13/06/2022
- */
+
 @Service
 @AllArgsConstructor
 public class AsyncMailService {
