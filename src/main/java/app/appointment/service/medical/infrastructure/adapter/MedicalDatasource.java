@@ -1,20 +1,25 @@
 package app.appointment.service.medical.infrastructure.adapter;
 
-import app.appointment.service.auth.domain.exception.*;
 import app.appointment.service.auth.domain.port.RoleService;
 import app.appointment.service.auth.infrastructure.adapter.driver.entity.Role;
+import app.appointment.service.date.infrastructure.adapter.driver.entity.DateEntity;
 import app.appointment.service.medical.domain.model.MedicalRequest;
 import app.appointment.service.medical.domain.model.MedicalResponse;
+import app.appointment.service.medical.domain.model.Schedule;
+import app.appointment.service.medical.domain.model.Specialty;
 import app.appointment.service.medical.domain.port.MedicalRepository;
 import app.appointment.service.medical.infrastructure.adapter.driver.MongoMedicalRepository;
 import app.appointment.service.medical.infrastructure.adapter.driver.entity.MedicalEntity;
 import app.appointment.service.patient.infrastructure.adapter.driver.MongoPatientRepository;
+import app.appointment.service.specialty.infrastructure.adapter.driver.entity.SpecialtyEntity;
 import app.appointment.service.utils.exception.ServiceException;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -48,12 +53,20 @@ public class MedicalDatasource implements MedicalRepository {
 
         MedicalEntity medicalEntity = modelMapper.map(medicalRequest, MedicalEntity.class);
 
-        Role role = roleService.findByName("ADMIN");
+        Role role = roleService.findByName("MEDICAL");
 
-        if (medicalEntity.getEmail().split("@")[1].equals("appointment.com")) {
-            role = roleService.findByName("ATM");
-        }
-
+        medicalEntity.setListSchedule(new ArrayList<>(List.of( Schedule.builder()
+                        .monday("09:00 de 15:00")
+                        .tuesday("09:00 de 15:00")
+                        .wednesday("09:00 de 15:00")
+                        .thursday("09:00 de 15:00")
+                        .friday("09:00 de 15:00")
+                        .saturday("09:00 de 15:00")
+                        .sunday("09:00 de 15:00")
+                        .createdAt(new Date())
+                .build())));
+        medicalEntity.setListSpecialty(new ArrayList<>(List.of( Specialty.builder()
+                .createdAt(new Date()).build())));
         medicalEntity.setRole(role);
 
         medicalRepository.save(modelMapper.map(medicalEntity, MedicalEntity.class));
@@ -111,5 +124,10 @@ public class MedicalDatasource implements MedicalRepository {
         }
 
         return modelMapper.map(medicalRepository.findByEmail(email).get(), MedicalResponse.class);
+    }
+
+    @Override
+    public Optional<MedicalEntity> findByUsername(String username) {
+        return medicalRepository.findByUsername(username);
     }
 }

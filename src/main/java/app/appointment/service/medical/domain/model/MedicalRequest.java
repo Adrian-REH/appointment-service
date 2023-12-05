@@ -7,13 +7,13 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class MedicalRequest {
 
-    @NotBlank
     private String nameLast;
     @NotBlank
     private String name;
@@ -31,6 +31,8 @@ public class MedicalRequest {
     private String password;
     @NotBlank
     private String tuition;
+    private List<Schedule> listSchedule;
+    private List<Specialty> listSpecialty;
 
     private String phone;
     private String profession;

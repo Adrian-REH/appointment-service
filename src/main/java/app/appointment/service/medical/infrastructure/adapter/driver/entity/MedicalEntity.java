@@ -1,6 +1,10 @@
 package app.appointment.service.medical.infrastructure.adapter.driver.entity;
 
 import app.appointment.service.auth.infrastructure.adapter.driver.entity.Role;
+import app.appointment.service.date.infrastructure.adapter.driver.entity.DateEntity;
+import app.appointment.service.medical.domain.model.Schedule;
+import app.appointment.service.medical.domain.model.Specialty;
+import app.appointment.service.specialty.infrastructure.adapter.driver.entity.SpecialtyEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,7 +41,8 @@ public class MedicalEntity {
     private String tokenNot;
     private String hourOn;
     private Role role;
-    private List<app.appointment.service.date.domain.model.Date> listSchedule;
+    private List<Schedule> listSchedule;
+    private List<Specialty> listSpecialty;
     @CreatedDate
     private Date createdAt;
     @LastModifiedDate

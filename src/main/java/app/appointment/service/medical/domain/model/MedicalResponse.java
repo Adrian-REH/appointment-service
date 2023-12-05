@@ -1,7 +1,6 @@
 package app.appointment.service.medical.domain.model;
 
 
-import app.appointment.service.date.domain.model.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +22,7 @@ public class MedicalResponse {
     private String img;
     private String tokenNot;
     private String hourOn;
-    private List<Date> listSchedule;
+    private List<Schedule> listSchedule;
+    private List<Specialty> listSpecialty;
 
 }
