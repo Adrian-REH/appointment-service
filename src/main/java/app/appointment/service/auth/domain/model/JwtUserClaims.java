@@ -4,25 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.lang.NonNull;
 
-import javax.validation.constraints.NotNull;
-
-/**
- * Formulario para el acceso
- */
+@Builder
 @Data
 @NoArgsConstructor
-@Builder
 @AllArgsConstructor
-public class LoginRequest {
-
-    @NonNull
+public class JwtUserClaims {
     private String username;
-    @NonNull
-    private String password;
-    @NotNull
     private Boolean isMedical;
-
 
 }

@@ -4,6 +4,7 @@ import app.appointment.service.auth.infrastructure.adapter.AuthService;
 import app.appointment.service.auth.domain.model.JwtResponse;
 import app.appointment.service.auth.domain.model.LoginRequest;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,12 +14,18 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/auth")
 @AllArgsConstructor
+@Slf4j
 public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@RequestBody @Valid LoginRequest loginRequest){
-        return ResponseEntity.ok(authService.login(loginRequest));
+        log.info("Login request" + loginRequest.toString());
+
+        var response = authService.login(loginRequest);
+        log.info("Login Response" + response.toString());
+
+        return ResponseEntity.ok(response);
     }
 
 
