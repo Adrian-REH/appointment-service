@@ -1,10 +1,8 @@
 package app.appointment.service.medical.infrastructure.adapter.driver.entity;
 
 import app.appointment.service.auth.infrastructure.adapter.driver.entity.Role;
-import app.appointment.service.date.infrastructure.adapter.driver.entity.DateEntity;
 import app.appointment.service.medical.domain.model.Schedule;
 import app.appointment.service.medical.domain.model.Specialty;
-import app.appointment.service.specialty.infrastructure.adapter.driver.entity.SpecialtyEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
