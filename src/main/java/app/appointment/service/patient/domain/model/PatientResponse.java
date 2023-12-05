@@ -12,16 +12,13 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class PatientResponse {
 
-    @NotBlank
+    private String id;
     private String username;
-    @NotBlank
     private String nameLast;
-    @NotBlank
+    private String name;
     private String password;
-    @NotBlank
     private String dni;
     private String phone;
-    @NotBlank
     private String email;
     private String direction;
     private String img;

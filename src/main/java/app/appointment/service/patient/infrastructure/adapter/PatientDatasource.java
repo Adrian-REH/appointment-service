@@ -52,20 +52,18 @@ public class PatientDatasource implements PatientRepository {
 
         PatientEntity patientEntity = modelMapper.map(patientRequest, PatientEntity.class);
 
-        Role role = roleService.findByName("ADMIN");
+        Role role = roleService.findByName("PATIENT");
 
-        if (patientEntity.getEmail().split("@")[1].equals("appointment.com")) {
-            role = roleService.findByName("ATM");
-        }
+
 
         patientEntity.setRole(role);
 
         patientRepository.save(modelMapper.map(patientEntity, PatientEntity.class));
-        asyncNotifications.emailNotifyNewAccount(EmailNotificationDto
+/*        asyncNotifications.emailNotifyNewAccount(EmailNotificationDto
                 .builder()
                         .patient(patientEntity.getUsername())
                         .email(patientEntity.getEmail())
-                .build());
+                .build());*/
         return modelMapper.map(patientEntity, PatientResponse.class);
     }
 
@@ -94,6 +92,11 @@ public class PatientDatasource implements PatientRepository {
 
         }
         return modelMapper.map(patientRepository.findById(id).get(), PatientResponse.class);
+    }
+
+    @Override
+    public Optional<PatientEntity> findByUsername(String username) {
+        return patientRepository.findByUsername(username);
     }
 
     @Override

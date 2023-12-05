@@ -23,6 +23,7 @@ public class PatientEntity {
     @Indexed(unique = true)
     private String username;
     private String nameLast;
+    private String name;
     private String password;
     private String dni;
     private String phone;
