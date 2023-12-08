@@ -8,10 +8,11 @@ import java.util.Optional;
 
 @Repository
 public interface MongoMedicalRepository extends MongoRepository<MedicalEntity, String> {
-    Optional<MedicalEntity> findByEmail(String email);
+    Optional<MedicalEntity> findByEmailIgnoreCase(String email);
     Optional<MedicalEntity> findByUsername(String email);
 
     Boolean existsByEmail(String email);
     Boolean existsByUsername(String email);
+
 
 }

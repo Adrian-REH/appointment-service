@@ -21,11 +21,12 @@ public class FavDataSource implements FavRepository {
 
     @Override
     public FavResponse save(FavRequest medicalRequest) {
-        var existEntity = mongoFav.findByIdMedicalAndIdPatient(medicalRequest.getMedical(), medicalRequest.getPatient());
+        var existEntity = mongoFav.findByUsernameMedicalAndUsernamePatient(medicalRequest.getUsernameMedical(), medicalRequest.getUsernamePatient());
         if (existEntity.isPresent()) {
             throw new ServiceException("Fav exist");
         }
-        return modelMapper.map(mongoFav.save(modelMapper.map(medicalRequest, FavEntity.class)), FavResponse.class);
+        mongoFav.save(modelMapper.map(medicalRequest, FavEntity.class));
+        return modelMapper.map(medicalRequest, FavResponse.class);
     }
 
     @Override
@@ -34,9 +35,18 @@ public class FavDataSource implements FavRepository {
     }
 
     @Override
-    public List<FavResponse> getAllFavs() {
-        return mongoFav.findAll()
-                .stream().map(fav -> modelMapper.map(fav, FavResponse.class))
+    public List<FavResponse> getAllFavs(String username) {
+        var list = mongoFav.findAll();
+        if (list.isEmpty()){
+            throw new ServiceException(601,"Favs not found");
+        }
+        return list
+                .stream().filter(favEntity -> {
+                    var medical = favEntity.getUsernameMedical().equals(username);
+                    var patient = favEntity.getUsernamePatient().equals(username);
+                    return patient || medical;
+                })
+                .map(fav -> modelMapper.map(fav, FavResponse.class))
                 .collect(Collectors.toList());
 
     }
@@ -47,23 +57,6 @@ public class FavDataSource implements FavRepository {
         return modelMapper.map(existFavEntityId(id), FavResponse.class);
     }
 
-    @Override
-    public FavResponse getByIdMedical(String id) {
-        var optFavEntity = mongoFav.findByIdMedical(id);
-        if (optFavEntity.isEmpty()) {
-            throw new ServiceException("Fav Medical not found");
-        }
-        return modelMapper.map(optFavEntity.get(), FavResponse.class);
-    }
-
-    @Override
-    public FavResponse getByIdPatient(String id) {
-        var optFavEntity = mongoFav.findByIdPatient(id);
-        if (optFavEntity.isEmpty()) {
-            throw new ServiceException("Fav Patient not found");
-        }
-        return modelMapper.map(optFavEntity.get(), FavResponse.class);
-    }
 
     @Override
     public FavResponse update(String id, FavRequest favRequest) {
@@ -76,7 +69,7 @@ public class FavDataSource implements FavRepository {
     @Override
     public FavResponse findByIdMedicalAndPatient(String idPatient, String idMedical) {
 
-        var optResult = mongoFav.findByIdMedicalAndIdPatient(idMedical, idPatient);
+        var optResult = mongoFav.findByUsernameMedicalAndUsernamePatient(idMedical, idPatient);
         if (optResult.isEmpty()) {
             throw new ServiceException("No existe la relacion");
         }

@@ -7,9 +7,7 @@ import org.springframework.data.mongodb.repository.Query;
 import java.util.Optional;
 
 public interface MongoFavRepository extends MongoRepository<FavEntity, String> {
-    @Query("{ 'idMedical' : ?0, 'idPatient' : ?1 }")
-    Optional<FavEntity> findByIdMedicalAndIdPatient(String idMedical, String idPatient);
+    @Query("{ 'usernameMedical' : ?0, 'usernamePatient' : ?1 }")
+    Optional<FavEntity> findByUsernameMedicalAndUsernamePatient(String usernameMedical, String usernamePatient);
 
-    Optional<FavEntity> findByIdMedical(String id);
-    Optional<FavEntity> findByIdPatient(String id);
 }

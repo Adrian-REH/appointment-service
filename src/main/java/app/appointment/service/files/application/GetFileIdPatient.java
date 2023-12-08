@@ -13,6 +13,6 @@ public class GetFileIdPatient {
     private final FileRepository fileRepository;
 
     public List<FileResponse> execute(String idPatient) {
-        return fileRepository.findByIdPatient(idPatient);
+        return fileRepository.findByUsernamePatient(idPatient);
     }
 }

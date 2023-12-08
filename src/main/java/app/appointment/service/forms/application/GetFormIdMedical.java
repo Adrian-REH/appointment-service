@@ -13,8 +13,8 @@ import java.util.List;
 public class GetFormIdMedical {
     private final FormRepository formRepository;
     private final MedicalRepository medicalRepository;
-    public List<FormResponse> execute(String id) {
-        medicalRepository.findById(id);
-        return formRepository.findByIdMedical(id);
+    public List<FormResponse> execute(String username) {
+        medicalRepository.findByUsername(username);
+        return formRepository.findByUsernameMedical(username);
     }
 }

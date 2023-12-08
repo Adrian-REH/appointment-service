@@ -11,9 +11,10 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 public class FavRequest {
     @NotBlank
-    private String medical;
+    private String usernameMedical;
     @NotBlank
-    private String patient;
-    private boolean isActive;
+    private String usernamePatient;
+    private Boolean isActive;
 
 }
+

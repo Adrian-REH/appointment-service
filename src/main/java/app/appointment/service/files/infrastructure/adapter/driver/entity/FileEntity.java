@@ -23,10 +23,10 @@ public class FileEntity {
     private String idLaboratory;
     private String studies;
     private String form;
-    @Field(name = "id_patient")
-    private String idPatient;
-    @Field(name = "id_medical")
-    private String idMedical;
+    @Field(name = "username_patient")
+    private String usernamePatient;
+    @Field(name = "username_medical")
+    private String usernameMedical;
     @CreatedDate
     private Date createdAt;
     @LastModifiedDate

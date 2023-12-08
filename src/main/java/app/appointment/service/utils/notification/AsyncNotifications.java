@@ -19,7 +19,8 @@ public class AsyncNotifications {
     @Async
     public void emailNotifyNewAccount(EmailNotificationDto notificationDto){
 
-        this.asyncMailService.sendEmail(notificationDto.getEmail(),"Create una cuenta en Appointment", AppUtil.generateHTMLNewAccount(notificationDto));
+
+        this.asyncMailService.sendEmail(notificationDto.getEmail(),"Se creo una cuenta en Appointment", AppUtil.generateHTMLNewAccount(notificationDto));
 
     }
 
@@ -30,9 +31,21 @@ public class AsyncNotifications {
 
     }
     @Async
+    public void emailNotifyVerifyEmailCode(EmailNotificationDto notificationDto){
+
+        this.asyncMailService.sendEmail(notificationDto.getEmail(),"Codigo de verificacion",AppUtil.generateHTMLVerifyEmailCode(notificationDto));
+
+    }
+    @Async
+    public void emailNotifyVerifyEmail(EmailNotificationDto notificationDto){
+
+        this.asyncMailService.sendEmail(notificationDto.getEmail(),"Restablece tu contraseña de Appointment",AppUtil.generateHTMLVerifyEmail(notificationDto));
+
+    }
+    @Async
     public void emailNotifyResetPassword(EmailNotificationDto notificationDto){
 
-        this.asyncMailService.sendEmail(notificationDto.getEmail(),"Restablece tu contraseña de Appointment",AppUtil.generateHTMLResetPassword(notificationDto));
+        this.asyncMailService.sendEmail(notificationDto.getEmail(),"Cambio de clave",AppUtil.generateHTMLResetPassword(notificationDto));
 
     }
     @Async

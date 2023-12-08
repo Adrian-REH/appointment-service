@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.springframework.http.HttpStatus;
 
 import java.io.Serial;
+import java.util.Arrays;
 
 @Getter
 @Setter
@@ -33,7 +34,7 @@ public class ServiceException extends RuntimeException {
 
     public ServiceException(int serviceCode, String ... elements) {
         this.serviceCode    = serviceCode;
-        this.msg            = AppConstants.ERROR + " "+serviceCode;
+        this.msg            = Arrays.toString(elements) + " "+serviceCode;
         this.elements       = elements;
     }
 

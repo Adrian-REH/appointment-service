@@ -10,6 +10,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -33,10 +34,17 @@ public class PatientEntity {
     private String img;
     private String tokenNot;
     private Role role;
+    private String twoFactorCode;
+    private Boolean twoFactorCodeUsed;
+    private LocalDateTime twoFactorCreatedCode;
+    private LocalDateTime twoFactorExpiryCode;
     @CreatedDate
     private Date createdAt;
     @LastModifiedDate
     private Date updatedAt;
+
+    public Boolean emailVerified;
+
 
     // Otras propiedades, constructores, getters y setters
 

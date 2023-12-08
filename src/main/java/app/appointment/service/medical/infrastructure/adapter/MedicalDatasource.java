@@ -2,7 +2,6 @@ package app.appointment.service.medical.infrastructure.adapter;
 
 import app.appointment.service.auth.domain.port.RoleService;
 import app.appointment.service.auth.infrastructure.adapter.driver.entity.Role;
-import app.appointment.service.date.infrastructure.adapter.driver.entity.DateEntity;
 import app.appointment.service.medical.domain.model.MedicalRequest;
 import app.appointment.service.medical.domain.model.MedicalResponse;
 import app.appointment.service.medical.domain.model.Schedule;
@@ -11,7 +10,6 @@ import app.appointment.service.medical.domain.port.MedicalRepository;
 import app.appointment.service.medical.infrastructure.adapter.driver.MongoMedicalRepository;
 import app.appointment.service.medical.infrastructure.adapter.driver.entity.MedicalEntity;
 import app.appointment.service.patient.infrastructure.adapter.driver.MongoPatientRepository;
-import app.appointment.service.specialty.infrastructure.adapter.driver.entity.SpecialtyEntity;
 import app.appointment.service.utils.exception.ServiceException;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -34,25 +32,25 @@ public class MedicalDatasource implements MedicalRepository {
     private final MongoPatientRepository patientRepository;
 
     @Override
-    public MedicalResponse save(MedicalRequest medicalRequest) {
+    public MedicalResponse createNewMedical(MedicalRequest medicalRequest) {
 
         //Check 0: Username NotExist in Patient and Medical
         if (medicalRepository.existsByUsername(medicalRequest.getUsername()) && patientRepository.existsByUsername(medicalRequest.getUsername())) {
-            throw new ServiceException("El nombre de usuario existe");
+            throw new ServiceException(600,"El nombre de usuario existe");
         }
         // Check 1: ParamIsBlank
         if (medicalRequest.getPassword().isBlank() || medicalRequest.getEmail().isBlank())
-            throw new ServiceException("Ingrese una clave, usuario y/ email");
+            throw new ServiceException(600,"Ingrese una clave, usuario y/ email");
 
         // Check 2: email
         if (medicalRepository.existsByEmail(medicalRequest.getEmail()))
-            throw new ServiceException("Email ocupado");
+            throw new ServiceException(600,"Email ocupado");
 
         medicalRequest.setPassword(bcryptEncoder.encode(medicalRequest.getPassword()));
 
 
         MedicalEntity medicalEntity = modelMapper.map(medicalRequest, MedicalEntity.class);
-
+        medicalEntity.setEmailVerified(false);
         Role role = roleService.findByName("MEDICAL");
 
         medicalEntity.setListSchedule(new ArrayList<>(List.of( Schedule.builder()
@@ -76,6 +74,8 @@ public class MedicalDatasource implements MedicalRepository {
 
     @Override
     public List<MedicalResponse> getAll() {
+
+
         var result = medicalRepository.findAll();
         return result.stream()
                 .map(medical -> modelMapper.map(medical, MedicalResponse.class))
@@ -108,6 +108,11 @@ public class MedicalDatasource implements MedicalRepository {
     }
 
     @Override
+    public void update(MedicalEntity medical) {
+        medicalRepository.save(medical);
+    }
+
+    @Override
     public MedicalResponse findById(String id) {
         if (!medicalRepository.existsById(id)) {
             throw new ServiceException("User id no existe");
@@ -117,13 +122,28 @@ public class MedicalDatasource implements MedicalRepository {
     }
 
     @Override
-    public MedicalResponse findByEmail(String email) {
+    public void updateTwoFactor(MedicalEntity medicalEntity) {
+        medicalRepository.save(medicalEntity);
+    }
+
+    @Override
+    public Boolean existUsername(String username) {
+        return medicalRepository.existsByUsername(username);
+    }
+
+    @Override
+    public Optional<MedicalEntity> findByEmail(String email) {
+        return medicalRepository.findByEmailIgnoreCase(email);
+    }
+
+    @Override
+    public MedicalResponse existEmail(String email) {
         if (!medicalRepository.existsByEmail(email)) {
             throw new ServiceException("No se encontro el email");
 
         }
 
-        return modelMapper.map(medicalRepository.findByEmail(email).get(), MedicalResponse.class);
+        return modelMapper.map(medicalRepository.findByEmailIgnoreCase(email).get(), MedicalResponse.class);
     }
 
     @Override

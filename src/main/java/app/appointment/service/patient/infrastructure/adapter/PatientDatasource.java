@@ -34,7 +34,7 @@ public class PatientDatasource implements PatientRepository {
     private  final AsyncNotifications asyncNotifications;
 
     @Override
-    public PatientResponse save(PatientRequest patientRequest) {
+    public PatientResponse createNewPatient(PatientRequest patientRequest) {
         //Check 0: Username NotExist in Patient and Medical
         if (patientRepository.existsByUsername(patientRequest.getUsername()) && medicalRepository.existsByUsername(patientRequest.getUsername())) {
             throw new ServiceException("El nombre de usuario existe");
@@ -52,6 +52,7 @@ public class PatientDatasource implements PatientRepository {
 
         PatientEntity patientEntity = modelMapper.map(patientRequest, PatientEntity.class);
 
+        patientEntity.setEmailVerified(false);
         Role role = roleService.findByName("PATIENT");
 
 
@@ -76,14 +77,13 @@ public class PatientDatasource implements PatientRepository {
     }
 
     @Override
-    public PatientResponse findByEmail(String email) {
-        if (!patientRepository.existsByEmail(email)) {
-            throw new ServiceException("No se encontro el email");
+    public Optional<PatientEntity> findByEmail(String email) {
 
-        }
 
-        return modelMapper.map(patientRepository.findByEmail(email).get(), PatientResponse.class);
+        return patientRepository.findByEmail(email);
     }
+
+
 
     @Override
     public PatientResponse findById(String id) {
@@ -119,5 +119,21 @@ public class PatientDatasource implements PatientRepository {
             throw new ServiceException("No se encontro el medico");
         }
         patientRepository.delete(patient.get());
+    }
+
+    @Override
+    public void updateTwoFactor(PatientEntity patientEntity) {
+        patientRepository.save(patientEntity);
+    }
+
+    @Override
+    public void update(PatientEntity patientEntity) {
+        patientRepository.save(patientEntity);
+    }
+
+    @Override
+    public Boolean existUsername(String username) {
+
+        return patientRepository.existsByUsername(username);
     }
 }

@@ -31,10 +31,10 @@ public class AsyncMailService {
         MimeMessageHelper helper;
         try {
             helper = new MimeMessageHelper(message, true, "UTF-8");
-            helper.setFrom("coli969696@gmail.com");
+            helper.setFrom("noreply@appointment.com");
             helper.setTo(to);
             helper.setSubject(subject);
-            helper.setText(text);
+            helper.setText("",text);
             //helper.setText(licenseTrialPeriodActiveEmail(), true); // true indica que el texto es HTML
 
 /*

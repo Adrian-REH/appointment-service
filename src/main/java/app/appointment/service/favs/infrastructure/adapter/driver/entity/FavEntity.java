@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -22,11 +21,9 @@ public class FavEntity {
     @Field(name = "is_active")
     private Boolean isActive;
     @Field(name = "id_medical")
-    @Indexed(unique = true)
-    private String idMedical;
+    private String usernameMedical;
     @Field(name = "id_patient")
-    @Indexed(unique = true)
-    private String idPatient;
+    private String usernamePatient;
     @CreatedDate
     private Date createdAt;
     @LastModifiedDate

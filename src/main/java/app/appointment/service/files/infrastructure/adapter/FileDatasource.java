@@ -5,7 +5,6 @@ import app.appointment.service.files.domain.model.FileResponse;
 import app.appointment.service.files.domain.port.FileRepository;
 import app.appointment.service.files.infrastructure.adapter.driver.MongoFileRepository;
 import app.appointment.service.files.infrastructure.adapter.driver.entity.FileEntity;
-import app.appointment.service.forms.infrastructure.adapter.driver.entity.FormEntity;
 import app.appointment.service.utils.exception.ServiceException;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -69,26 +68,26 @@ public class FileDatasource implements FileRepository {
     }
 
     @Override
-    public List<FileResponse> findByIdMedical(String id) {
-        if(mongoFile.findByIdMedical(id).isEmpty()){
+    public List<FileResponse> findByUsernameMedical(String username) {
+        if(mongoFile.findByUsernameMedical(username).isEmpty()){
             throw new ServiceException("No existe archivos que contengan un medico");
         }
 
-        return mongoFile.findAllByIdMedical(id).stream().map(file ->modelMapper.map(file, FileResponse.class)).collect(Collectors.toList());
+        return mongoFile.findAllByUsernameMedical(username).stream().map(file ->modelMapper.map(file, FileResponse.class)).collect(Collectors.toList());
     }
 
     @Override
-    public List<FileResponse>  findByIdPatient(String id) {
+    public List<FileResponse> findByUsernamePatient(String username) {
 
-        if(mongoFile.findByIdPatient(id).isEmpty()){
+        if(mongoFile.findByUsernamePatient(username).isEmpty()){
             throw new ServiceException("No existe archivos que contengan un medico");
         }
-        return mongoFile.findAllByIdPatient(id).stream().map(file ->modelMapper.map(file, FileResponse.class)).collect(Collectors.toList());
+        return mongoFile.findAllByUsernamePatient(username).stream().map(file ->modelMapper.map(file, FileResponse.class)).collect(Collectors.toList());
     }
 
     @Override
     public FileResponse findByIdPatientAndIdMedical(String idPatient, String idMedical) {
-        Optional<FileEntity> optFileEntity = mongoFile.findByIdPatientAndIdMedical(idPatient,idMedical);
+        Optional<FileEntity> optFileEntity = mongoFile.findByUsernamePatientAndUsernameMedical(idPatient,idMedical);
         if (optFileEntity.isEmpty()){
             throw new ServiceException("No existe la relacion para este archivo");
         }

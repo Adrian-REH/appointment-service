@@ -16,8 +16,8 @@ public class FileRequest {
     private String idOdontograma;
     private String form;
     @NotBlank
-    private String idPatient;
+    private String usernamePatient;
     @NotBlank
-    private String idMedical;
+    private String usernameMedical;
 
 }

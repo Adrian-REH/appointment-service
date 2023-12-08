@@ -1,14 +1,17 @@
 package app.appointment.service.files.infrastructure.web;
 
+import app.appointment.service.auth.infrastructure.web.security.TokenProvider;
 import app.appointment.service.files.application.*;
 import app.appointment.service.files.domain.model.FileRequest;
 import app.appointment.service.files.domain.model.FileResponse;
+import app.appointment.service.utils.AppUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +28,7 @@ public class FileController {
     private final GetFileIdPatientAndIdMedical getFileIdPatientAndIdMedical;
     private final UpdateFile updateFile;
     private final DeleteFile deleteFile;
+    private final TokenProvider jwtTokenUtil;
 
     // CREATE
     @PostMapping
@@ -35,8 +39,11 @@ public class FileController {
     // GET ALL
     @PreAuthorize("hasAnyRole('MEDICAL','PATIENT', 'ADMIN')")
     @GetMapping
-    public ResponseEntity<List<FileResponse>> getAllFiles() {
-        return ResponseEntity.of(Optional.of(getAllFile.execute()));
+    public ResponseEntity<List<FileResponse>> getAllFiles(HttpServletRequest request) {
+        final String username = AppUtil.jwtGetUsername(request, jwtTokenUtil);
+        final String role = AppUtil.jwtGetRole(request, jwtTokenUtil);
+
+        return ResponseEntity.of(Optional.of(getAllFile.execute(username,role)));
 
     }
 

@@ -10,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 public class GetAllFav {
     private final FavRepository favRepository;
-    public List<FavResponse> execute() {
-        return favRepository.getAllFavs();
+    public List<FavResponse> execute(String username) {
+        return favRepository.getAllFavs(username);
     }
 }

@@ -23,8 +23,12 @@ public class CreateFile {
         {
             throw new ServiceException("No contiene archivos");
         }
-        medicalRepository.findById(fileRequest.getIdMedical());
-        patientRepository.findById(fileRequest.getIdPatient());
+        if (medicalRepository.findByUsername(fileRequest.getUsernameMedical()).isEmpty()){
+            throw new ServiceException(600, "No existe el medico");
+        }
+        if (patientRepository.findByUsername(fileRequest.getUsernamePatient()).isEmpty()){
+            throw new ServiceException(600, "No existe el paciente");
+        }
 
         odontogramaRepository.findById(fileRequest.getIdOdontograma());
 

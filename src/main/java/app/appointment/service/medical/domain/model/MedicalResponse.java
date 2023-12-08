@@ -13,6 +13,7 @@ import java.util.List;
 public class MedicalResponse {
     private String id;
     private String nameLast;
+    private String username;
     private String dni;
     private String phone;
     private String email;

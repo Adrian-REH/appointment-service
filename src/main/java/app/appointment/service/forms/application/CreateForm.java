@@ -15,8 +15,8 @@ public class CreateForm {
     private final MedicalRepository medicalRepository;
     private final PatientRepository patientRepository;
     public FormResponse execute(FormRequest request) {
-        medicalRepository.findById(request.getIdMedical());
-        patientRepository.findById(request.getIdPatient());
+        medicalRepository.findById(request.getUsernameMedical());
+        patientRepository.findById(request.getUsernamePatient());
         return formRepository.save(request);
     }
 }

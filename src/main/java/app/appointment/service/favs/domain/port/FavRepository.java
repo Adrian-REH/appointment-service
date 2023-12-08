@@ -10,12 +10,10 @@ public interface FavRepository {
 
     void delete(final String id);
 
-    List<FavResponse> getAllFavs();
+    List<FavResponse> getAllFavs(String username);
 
     FavResponse getById(final String id);
 
-    FavResponse getByIdMedical(final String id);
-    FavResponse getByIdPatient(final String id);
 
     FavResponse update(final String id,final FavRequest medicalEntity);
 

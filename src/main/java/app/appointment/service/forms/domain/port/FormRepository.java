@@ -17,10 +17,10 @@ public interface FormRepository {
 
     void deleteById(String id);
 
-    List<FormResponse>  findByIdMedical(String id);
+    List<FormResponse> findByUsernameMedical(String id);
 
-    List<FormResponse>  findByIdPatient(String id);
+    List<FormResponse> findByUsernamePatient(String usernamePatient);
 
-    FormResponse findByIdPatientAndIdMedical(String idPatient, String idMedical);
+    FormResponse findByUsernamePatientAndUsernameMedical(String usernamePatient, String usernameMedical);
 
 }

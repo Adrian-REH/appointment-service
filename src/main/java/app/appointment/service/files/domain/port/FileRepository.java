@@ -10,18 +10,17 @@ import java.util.List;
 public interface FileRepository {
     FileResponse save(FileRequest request);
 
-    List<FileResponse> findAll();
-
-
     FileResponse findById(String id);
 
     FileResponse updateById(String id, FileRequest request);
 
     void deleteById(String id);
 
-    List<FileResponse>  findByIdMedical(String id);
+    List<FileResponse> findAll();
 
-    List<FileResponse>  findByIdPatient(String id);
+    List<FileResponse> findByUsernameMedical(String username);
+
+    List<FileResponse> findByUsernamePatient(String username);
 
     FileResponse findByIdPatientAndIdMedical(String idPatient, String idMedical);
 }

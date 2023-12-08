@@ -1,20 +1,28 @@
 package app.appointment.service.patient.application;
 
-import app.appointment.service.medical.domain.model.MedicalRequest;
-import app.appointment.service.medical.domain.model.MedicalResponse;
-import app.appointment.service.medical.domain.port.MedicalRepository;
 import app.appointment.service.patient.domain.model.PatientRequest;
 import app.appointment.service.patient.domain.model.PatientResponse;
 import app.appointment.service.patient.domain.port.PatientRepository;
+import app.appointment.service.utils.dto.EmailNotificationDto;
+import app.appointment.service.utils.notification.AsyncNotifications;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
 public class CreatePatient {
+    private final AsyncNotifications asyncNotifications;
 
     private final PatientRepository patientRepository;
-    public PatientResponse execute(PatientRequest patientRequest) {
-        return patientRepository.save(patientRequest);
+    public PatientResponse execute(PatientRequest request) {
+
+        var response =patientRepository.createNewPatient(request);
+        asyncNotifications.emailNotifyNewAccount(EmailNotificationDto.builder()
+                .patient(request.getName())
+                        .medical("")
+                .username(request.getUsername())
+                .email(request.getEmail())
+                .build());
+        return response;
     }
 }

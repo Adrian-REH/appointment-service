@@ -63,35 +63,35 @@ public class FormDatasource implements FormRepository {
     }
 
     @Override
-    public List<FormResponse> findByIdMedical(String id) {
-        if(mongoFormRepository.findByIdMedical(id).isEmpty()){
+    public List<FormResponse> findByUsernameMedical(String id) {
+        if(mongoFormRepository.findByUsernameMedical(id).isEmpty()){
             throw new ServiceException("No existe el formulario para el medico");
         }
 
         return mongoFormRepository
-                .findAllByIdMedical(id)
+                .findAllByUsernameMedical(id)
                 .stream()
                 .map(value -> modelMapper.map(value,FormResponse.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<FormResponse> findByIdPatient(String id) {
+    public List<FormResponse> findByUsernamePatient(String usernamePatient) {
 
-        if(mongoFormRepository.findByIdPatient(id).isEmpty()){
+        if(mongoFormRepository.findByUsernamePatient(usernamePatient).isEmpty()){
             throw new ServiceException("No existe el formulario para el paciente");
         }
 
         return mongoFormRepository
-                .findAllByIdPatient(id)
+                .findAllByUsernamePatient(usernamePatient)
                 .stream()
                 .map(value -> modelMapper.map(value,FormResponse.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public FormResponse findByIdPatientAndIdMedical(String idPatient, String idMedical) {
-        Optional<FormEntity> entity = mongoFormRepository.findByIdPatientAndIdMedical(idPatient, idMedical);
+    public FormResponse findByUsernamePatientAndUsernameMedical(String usernamePatient, String usernameMedical) {
+        Optional<FormEntity> entity = mongoFormRepository.findByUsernamePatientAndUsernameMedical(usernamePatient, usernameMedical);
         if(entity.isEmpty()){
             throw new ServiceException("No existe el formulario para el paciente");
         }
